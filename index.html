@@ -99,6 +99,23 @@
     pointer-events:none;
     z-index:0;
   }
+  
+  /* Efeito Spotlight no Cabeçalho */
+  .hero-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(800px circle at var(--mx, 50%) var(--my, 50%), rgba(211, 167, 92, 0.25), transparent 70%);
+    mix-blend-mode: screen; /* Adiciona vivacidade ao brilho no fundo escuro */
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .hero-wrap:hover::after {
+    opacity: 0.6;
+  }
+
   @keyframes glowDrift{
     0%,100%{transform:translate(0,0) scale(1);}
     50%{transform:translate(-3%,3%) scale(1.08);}
@@ -688,7 +705,7 @@
     display:flex;
     flex-direction:column;
     gap:16px;
-    align-items:flex-end;
+    align-items:flex-start;
   }
   .contact-links a{
     font-family:'Lora', serif;
@@ -697,7 +714,6 @@
     position:relative;
     transition:color .3s ease;
     
-    /* ADICIONADO AQUI PARA ALINHAR O ÍCONE COM O TEXTO */
     display: flex;
     align-items: center;
     gap: 12px;
@@ -713,12 +729,12 @@
   .contact-links a:hover{color:var(--gold-light);}
   .contact-links a:hover::after{width:100%;}
 
-.network-wrap{
+  .network-wrap{
     position:absolute;
     top:50%;
-    left:70%; /* Move para o centro */
-    transform:translate(-50%, -50%); /* Centraliza perfeitamente nos eixos X e Y */
-    width:min(55%, 750px); /* Levemente mais largo para as linhas alcançarem os textos */
+    left:70%; 
+    transform:translate(-50%, -50%); 
+    width:min(55%, 750px); 
     z-index:1;
     opacity:.9;
     pointer-events:none;
@@ -859,7 +875,6 @@
   }
 
   @media (max-width:640px){
-    /* Adicionamos a escala pro mobile (diminui proporcionalmente o card inteiro em vez de desmanchá-lo) */
     :root { --card-scale: 0.8; }
     
     .hero-wrap{margin:12px; border-radius:20px;}
@@ -900,7 +915,6 @@
     .contact-links a{font-size:19px;}
     .network-wrap{width:78%; right:-18%; top:38%; opacity:.4;}
     
-    /* Modais Mobile */
     .project-modal { padding: 20px; }
     .modal-inner { padding: 40px 24px; }
     .close-btn { top: 16px; right: 16px; width: 36px; height: 36px; font-size: 20px; }
@@ -1110,7 +1124,6 @@
       <h2 class="reveal reveal-delay-1">Vamos conversar?</h2>
     </div>
     
-    <!-- ÍCONES ADICIONADOS AQUI NOS LINKS -->
     <div class="contact-links reveal reveal-delay-2">
       <a href="https://www.linkedin.com/in/vitoriasofiasantos/" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -1182,7 +1195,6 @@
   </div>
 </div>
 
-
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1241,7 +1253,8 @@
 
   // Cursor-tracked spotlight
   if(!reduceMotion){
-    document.querySelectorAll('.traj-card, .proj-card').forEach(card=>{
+    // Garantindo que a classe .hero-wrap e os cards estao chamando a funcao
+    document.querySelectorAll('.traj-card, .proj-card, .hero-wrap').forEach(card=>{
       card.addEventListener('mousemove', (e)=>{
         const rect = card.getBoundingClientRect();
         card.style.setProperty('--mx', `${((e.clientX - rect.left) / rect.width) * 100}%`);
@@ -1267,17 +1280,14 @@
   // Funções para abrir e fechar as landing pages (Modais)
   function openModal(modalId) {
     document.getElementById(modalId).classList.add('open');
-    // Trava o scroll da página principal que está no fundo
     document.body.style.overflow = 'hidden'; 
   }
 
   function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('open');
-    // Libera o scroll da página principal
     document.body.style.overflow = '';
   }
 
-  // Fecha o modal se o usuário clicar fora da caixinha (no fundo escuro)
   function closeOnBgClick(event, modalId) {
     if(event.target.id === modalId) {
       closeModal(modalId);
