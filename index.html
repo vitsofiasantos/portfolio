@@ -193,7 +193,6 @@
 
   .hero-copy h1{
     color:#fff;
-    /* Tamanho aumentado para o desktop */
     font-size:clamp(64px, 8vw, 110px);
     letter-spacing:-.02em;
     line-height:0.95;
@@ -201,7 +200,7 @@
   .hero-copy h1 .accent{
     color:var(--gold-light);
     display:block;
-    font-size:1.05em; /* Proporcionalmente maior que o nome */
+    font-size:1.05em;
   }
 
   .hero-copy p.lede{
@@ -232,7 +231,6 @@
     transform:translateY(-2px);
   }
 
-  /* Hero card illustration - Fiel à Imagem */
   .hero-art{
     position:relative;
     display:flex;
@@ -243,7 +241,7 @@
   }
   
   :root {
-    --card-scale: 1; /* Variável global para controlar a escala do card */
+    --card-scale: 1;
   }
   
   .card-shadow{
@@ -307,7 +305,6 @@
     height:1px;
     background:rgba(0,0,0,.15);
   }
-  /* Ajuste preciso da forma verde e do texto */
   .shape-parallel{
     bottom:45px; left:20px;
     width:150px; height:75px;
@@ -320,7 +317,7 @@
     left:35px;
     bottom:60px;
     font-family:'Lora', serif;
-    font-weight: 450;
+    font-weight: 300;
     font-size:35px;
     line-height:1.15;
     color:var(--ink);
@@ -699,6 +696,11 @@
     color:#f0e7d8;
     position:relative;
     transition:color .3s ease;
+    
+    /* ADICIONADO AQUI PARA ALINHAR O ÍCONE COM O TEXTO */
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
   .contact-links a::after{
     content:"";
@@ -711,13 +713,12 @@
   .contact-links a:hover{color:var(--gold-light);}
   .contact-links a:hover::after{width:100%;}
 
-  .network-wrap{
+.network-wrap{
     position:absolute;
     top:50%;
-    right:-6%;
-    transform:translateY(-50%);
-    width:min(52%, 620px);
-    aspect-ratio:560/460;
+    left:70%; /* Move para o centro */
+    transform:translate(-50%, -50%); /* Centraliza perfeitamente nos eixos X e Y */
+    width:min(55%, 750px); /* Levemente mais largo para as linhas alcançarem os textos */
     z-index:1;
     opacity:.9;
     pointer-events:none;
@@ -1108,10 +1109,27 @@
       <span class="eyebrow reveal">Contatos</span>
       <h2 class="reveal reveal-delay-1">Vamos conversar?</h2>
     </div>
+    
+    <!-- ÍCONES ADICIONADOS AQUI NOS LINKS -->
     <div class="contact-links reveal reveal-delay-2">
-      <a href="https://www.linkedin.com/in/vitoriasofiasantos/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="http://lattes.cnpq.br/4101880757845323" target="_blank" rel="noopener noreferrer">Lattes</a>
-      <a href="https://linktr.ee/vitsofiasantos" target="_blank" rel="noopener noreferrer">Outros</a>
+      <a href="https://www.linkedin.com/in/vitoriasofiasantos/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+        </svg>
+        LinkedIn
+      </a>
+      <a href="http://lattes.cnpq.br/4101880757845323" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+        </svg>
+        Lattes
+      </a>
+      <a href="https://linktr.ee/vitsofiasantos" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        Outros
+      </a>
     </div>
   </div>
 </div>
