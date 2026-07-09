@@ -25,9 +25,9 @@
 
   *{margin:0;padding:0;box-sizing:border-box;}
 
-html {
+  html {
     scroll-behavior: smooth;
-    overflow-x: hidden; /* <-- Adicionamos isso para travar o eixo horizontal na raiz */
+    overflow-x: hidden;
   }
 
   body {
@@ -35,7 +35,7 @@ html {
     background: var(--cream);
     color: var(--ink);
     overflow-x: hidden;
-    width: 100%; /* <-- Garante que o corpo nunca passe do limite da tela */
+    width: 100%;
     animation: pageFade .7s ease both;
   }
   @keyframes pageFade{
@@ -111,7 +111,7 @@ html {
     inset: 0;
     z-index: 1;
     background: radial-gradient(800px circle at var(--mx, 50%) var(--my, 50%), rgba(211, 167, 92, 0.25), transparent 70%);
-    mix-blend-mode: screen; /* Adiciona vivacidade ao brilho no fundo escuro */
+    mix-blend-mode: screen;
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -272,11 +272,14 @@ html {
     height:420px;
     background:#3a2b1c;
     border-radius:22px;
+    top: 50%;
+    left: 50%;
+    margin-top: -230px;
+    margin-left: -120px;
     transform: scale(var(--card-scale)) rotate(10deg);
-    right:12%;
-    top:14%;
     opacity:.55;
   }
+  
   .card-main{
     position:relative;
     width:360px;
@@ -347,7 +350,8 @@ html {
     text-align: left;
   }
   .shape-ring{
-    bottom:45px; right:40px;
+    bottom:45px; 
+    right: 15px; 
     width:70px; height:70px;
     border-radius:50%;
     border:8px solid var(--brown-ring);
@@ -817,8 +821,22 @@ html {
   @media (max-width:900px){
     .container{padding:0 32px;}
     nav{padding:30px 32px 0;}
-    .hero{grid-template-columns:1fr; padding:48px 32px 64px; text-align:left; gap:8px;}
-    .hero-art{margin-top:36px; min-height:380px;}
+    
+    .hero{
+      grid-template-columns:1fr; 
+      padding:48px 32px 64px; 
+      text-align:center; 
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:32px;
+    }
+    .hero-copy { display:flex; flex-direction:column; align-items:center; }
+    .hero-copy .eyebrow { margin-bottom: 20px; }
+    .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
+    .tags { justify-content:center; }
+    
+    .hero-art{margin-top:0px; min-height:380px;}
     
     .about-grid{
       grid-template-columns:1fr; 
@@ -826,13 +844,13 @@ html {
       text-align:center;
     }
     .about-card p { margin: 0 auto; }
-.about-facts { 
-    align-items: flex-start; /* Alinha os blocos à esquerda */
-    text-align: left;        /* Garante que o texto fique à esquerda se quebrar de linha */
-  }
+    .about-facts { 
+      align-items: flex-start;
+      text-align: left;
+    }
     
     .photo-wrap{
-      max-width:320px;
+      max-width: 420px;
       margin: 0 auto; 
     }
 
@@ -886,14 +904,6 @@ html {
 
   @media (max-width:640px){
     :root { --card-scale: 0.8; }
-
-    .card-shadow {
-      right: auto;
-      left: 50%;
-      top: 50%;
-      margin-left: -150px; /* Ajuste aqui para mover para a esquerda/direita */
-      margin-top: -190px;  /* Ajuste aqui para mover para cima/baixo */
-    }
     
     .hero-wrap{margin:12px; border-radius:20px;}
     nav{padding:24px 24px 0;}
