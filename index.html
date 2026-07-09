@@ -215,7 +215,8 @@
 
   .hero-copy h1{
     color:#fff;
-    font-size:clamp(64px, 8vw, 110px);
+    /* Tamanho aumentado aqui */
+    font-size:clamp(72px, 10vw, 130px);
     letter-spacing:-.02em;
     line-height:0.95;
   }
@@ -836,14 +837,17 @@
     .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
     .tags { justify-content:center; }
     
-    .hero-art{margin-top:0px; min-height:380px;}
+    /* Espaçamento do Card com as Tags */
+    .hero-art{margin-top:60px; min-height:380px;}
     
     .about-grid{
       grid-template-columns:1fr; 
       gap:64px;
-      text-align:center;
     }
-    .about-card p { margin: 0 auto; }
+    /* Força alinhamento à esquerda no Sobre Mim no Tablet e Mobile */
+    .about-card {
+      text-align: left;
+    }
     .about-facts { 
       align-items: flex-start;
       text-align: left;
@@ -858,7 +862,16 @@
     .traj-head{grid-template-columns:1fr; gap:20px; align-items:start;}
     .traj-grid{grid-template-columns:repeat(2, 1fr);}
     .curric-grid{grid-template-columns:repeat(2, 1fr); row-gap:40px;}
-    .proj-grid{grid-template-columns:1fr; max-width:520px;}
+    
+    /* Centraliza a aba Projetos no Tablet */
+    #projetos { text-align: center; }
+    .proj-grid{
+      grid-template-columns:1fr; 
+      max-width:520px; 
+      margin: 0 auto; 
+      text-align: left; 
+    }
+    
     .contact-section{padding:80px 40px;}
     .network-wrap{width:64%; right:-14%; opacity:.6;}
   }
@@ -904,7 +917,7 @@
 
   @media (max-width:640px){
     :root { --card-scale: 0.8; }
-    
+
     .hero-wrap{margin:12px; border-radius:20px;}
     nav{padding:24px 24px 0;}
     .nav-links{left:24px; right:24px;}
@@ -921,13 +934,14 @@
     .hero-copy .eyebrow { margin-bottom: 20px; }
     .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
     
-    .hero-copy h1{ font-size:72px; line-height:0.95; }
-    .hero-copy h1 .accent { font-size:82px; margin-top:4px; }
+    /* Título ainda maior no Mobile */
+    .hero-copy h1{ font-size:82px; line-height:0.95; }
+    .hero-copy h1 .accent { font-size:92px; margin-top:4px; }
     
     .hero-copy p.lede{ font-size:16px; margin:24px 0 32px; max-width:95%; }
     .tags { justify-content:center; }
 
-    .hero-art{min-height:360px; margin-top:0;}
+    .hero-art{min-height:360px; margin-top:40px;}
     
     section{padding:64px 0;}
     .container{padding:0 22px;}
@@ -950,8 +964,8 @@
 
   @media (max-width:400px){
     :root { --card-scale: 0.7; }
-    .hero-copy h1{font-size:60px;}
-    .hero-copy h1 .accent {font-size:68px;}
+    .hero-copy h1{font-size:68px;}
+    .hero-copy h1 .accent {font-size:78px;}
     .hero-art{min-height:320px;}
     .tags{gap:8px;}
     .tag{padding:8px 16px; font-size:13px;}
