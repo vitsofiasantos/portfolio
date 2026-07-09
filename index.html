@@ -420,6 +420,7 @@ html {
     font-size:clamp(30px, 3.4vw, 44px);
     margin:16px 0 24px;
     color:var(--ink);
+    line-height: 1.4;
   }
   .about-card p{
     color:var(--muted);
@@ -825,7 +826,10 @@ html {
       text-align:center;
     }
     .about-card p { margin: 0 auto; }
-    .about-facts { align-items: center; }
+.about-facts { 
+    align-items: flex-start; /* Alinha os blocos à esquerda */
+    text-align: left;        /* Garante que o texto fique à esquerda se quebrar de linha */
+  }
     
     .photo-wrap{
       max-width:320px;
@@ -882,6 +886,14 @@ html {
 
   @media (max-width:640px){
     :root { --card-scale: 0.8; }
+
+    .card-shadow {
+      right: auto;
+      left: 50%;
+      top: 50%;
+      margin-left: -150px; /* Ajuste aqui para mover para a esquerda/direita */
+      margin-top: -190px;  /* Ajuste aqui para mover para cima/baixo */
+    }
     
     .hero-wrap{margin:12px; border-radius:20px;}
     nav{padding:24px 24px 0;}
@@ -999,7 +1011,7 @@ html {
         <p>Bacharela em Ciências Sociais pela Universidade Federal Rural de Pernambuco, com interesse acadêmico e profissional voltado à produção de pesquisas nas áreas de Comunicação Social e Ciência Política. Atualmente, atuo como analista de pesquisa eleitoral, aplicando metodologias quantitativas e qualitativas para a produção de diagnósticos estratégicos.</p>
         <div class="about-facts">
           <span>🌞 Sou de Recife/PE</span>
-          <span>🐈 Tutora de duas gatinhas: Olga e Quinta-feira</span>
+          <span>🐈 Tutora de Olga e Quinta-feira</span>
         </div>
       </div>
     </div>
