@@ -213,17 +213,18 @@
     width:100%;
   }
 
+  /* Tamanho original restaurado para o Desktop */
   .hero-copy h1{
     color:#fff;
-    /* Tamanho aumentado aqui */
-    font-size:clamp(72px, 10vw, 130px);
+    font-size:clamp(64px, 8vw, 110px);
     letter-spacing:-.02em;
     line-height:0.95;
   }
+  /* O .accent agora tem 1em, ficando do mesmo exato tamanho que a linha de cima */
   .hero-copy h1 .accent{
     color:var(--gold-light);
     display:block;
-    font-size:1.05em;
+    font-size:1em; 
   }
 
   .hero-copy p.lede{
@@ -267,16 +268,15 @@
     --card-scale: 1;
   }
   
+  /* Posição original restaurada para o Desktop */
   .card-shadow{
     position:absolute;
     width:340px;
     height:420px;
     background:#3a2b1c;
     border-radius:22px;
-    top: 50%;
-    left: 50%;
-    margin-top: -230px;
-    margin-left: -120px;
+    right: 12%;
+    top: 14%;
     transform: scale(var(--card-scale)) rotate(10deg);
     opacity:.55;
   }
@@ -350,9 +350,10 @@
     z-index:3;
     text-align: left;
   }
+  /* Posição original restaurada para o Desktop */
   .shape-ring{
     bottom:45px; 
-    right: 15px; 
+    right: 40px; 
     width:70px; height:70px;
     border-radius:50%;
     border:8px solid var(--brown-ring);
@@ -724,7 +725,8 @@
     font-size:22px;
     color:#f0e7d8;
     position:relative;
-    transition:color .3s ease;
+    transition:color .3s ease, opacity .3s ease;
+    opacity: 0.7;
     
     display: flex;
     align-items: center;
@@ -738,9 +740,13 @@
     background:var(--gold-light);
     transition:width .3s ease;
   }
-  .contact-links a:hover{color:var(--gold-light);}
+  .contact-links a:hover{
+    color:var(--gold-light);
+    opacity: 1;
+  }
   .contact-links a:hover::after{width:100%;}
 
+  /* Rede Posicionada Originalmente (Lateral Direita) no Desktop */
   .network-wrap{
     position:absolute;
     top:50%;
@@ -818,7 +824,7 @@
     .traj-grid{gap:18px;}
   }
 
-  /* Tablets */
+  /* Tablets (Aqui aplicamos as Correções e Ancoragens) */
   @media (max-width:900px){
     .container{padding:0 32px;}
     nav{padding:30px 32px 0;}
@@ -837,21 +843,24 @@
     .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
     .tags { justify-content:center; }
     
-    /* Espaçamento do Card com as Tags */
     .hero-art{margin-top:60px; min-height:380px;}
+    
+    /* Ancoragem exata da sombra a partir de Tablets */
+    .card-shadow{
+      right: auto;
+      left: 50%;
+      top: 50%;
+      transform: translate(calc(-50% + 20px), calc(-50% + 25px)) scale(var(--card-scale)) rotate(10deg);
+    }
     
     .about-grid{
       grid-template-columns:1fr; 
       gap:64px;
     }
-    /* Força alinhamento à esquerda no Sobre Mim no Tablet e Mobile */
-    .about-card {
-      text-align: left;
-    }
-    .about-facts { 
-      align-items: flex-start;
-      text-align: left;
-    }
+    /* Textos alinhados à esquerda para Mobile e Tablet */
+    .about-card { text-align: left; }
+    .about-card p { margin: 0 auto; }
+    .about-facts { align-items: flex-start; text-align: left; }
     
     .photo-wrap{
       max-width: 420px;
@@ -863,8 +872,8 @@
     .traj-grid{grid-template-columns:repeat(2, 1fr);}
     .curric-grid{grid-template-columns:repeat(2, 1fr); row-gap:40px;}
     
-    /* Centraliza a aba Projetos no Tablet */
-    #projetos { text-align: center; }
+    /* Projetos alinhados à esquerda */
+    #projetos { text-align: left; }
     .proj-grid{
       grid-template-columns:1fr; 
       max-width:520px; 
@@ -873,7 +882,8 @@
     }
     
     .contact-section{padding:80px 40px;}
-    .network-wrap{width:64%; right:-14%; opacity:.6;}
+    /* Rede centralizada apenas a partir dos tablets */
+    .network-wrap{width:80%; left:50%; right:auto; transform:translate(-50%, -50%); opacity:.4;}
   }
 
   @media (max-width:760px){
@@ -934,19 +944,33 @@
     .hero-copy .eyebrow { margin-bottom: 20px; }
     .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
     
-    /* Título ainda maior no Mobile */
-    .hero-copy h1{ font-size:82px; line-height:0.95; }
-    .hero-copy h1 .accent { font-size:92px; margin-top:4px; }
+    /* Escala adaptável garantindo que não quebre e os nomes fiquem iguais */
+    .hero-copy h1{ font-size:clamp(50px, 14vw, 68px); line-height:0.95; }
+    .hero-copy h1 .accent { font-size:1em; margin-top:4px; }
     
     .hero-copy p.lede{ font-size:16px; margin:24px 0 32px; max-width:95%; }
     .tags { justify-content:center; }
 
     .hero-art{min-height:360px; margin-top:40px;}
     
+    /* Proteção para os elementos não cortarem a tela no mobile */
+    .photo-wrap{
+      max-width: 260px; 
+      margin: 0 auto; 
+    }
+    .photo-deco-circle {
+      width: 80px; height: 80px;
+      top: -20px; right: -20px;
+    }
+    .photo-deco-square {
+      width: 50px; height: 50px;
+      bottom: -15px; left: -15px;
+    }
+    
     section{padding:64px 0;}
     .container{padding:0 22px;}
     .about-card{padding:26px;}
-    .about-card h2{font-size:28px;}
+    .about-card h2{font-size:28px; line-height: 1.3;}
     .traj-grid{grid-template-columns:1fr;}
     .curric-grid{grid-template-columns:1fr; row-gap:32px;}
     .proj-card{padding:30px 26px;}
@@ -955,7 +979,8 @@
     .contact-grid{flex-direction:column; align-items:flex-start; gap:32px;}
     .contact-links{align-items:flex-start;}
     .contact-links a{font-size:19px;}
-    .network-wrap{width:78%; right:-18%; top:38%; opacity:.4;}
+    
+    .network-wrap{width:100%; left:50%; right:auto; top:50%; transform:translate(-50%, -50%); opacity:.3;}
     
     .project-modal { padding: 20px; }
     .modal-inner { padding: 40px 24px; }
@@ -964,8 +989,8 @@
 
   @media (max-width:400px){
     :root { --card-scale: 0.7; }
-    .hero-copy h1{font-size:68px;}
-    .hero-copy h1 .accent {font-size:78px;}
+    .hero-copy h1{font-size:48px;}
+    .hero-copy h1 .accent {font-size:1em;}
     .hero-art{min-height:320px;}
     .tags{gap:8px;}
     .tag{padding:8px 16px; font-size:13px;}
