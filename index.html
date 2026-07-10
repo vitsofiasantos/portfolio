@@ -213,14 +213,12 @@
     width:100%;
   }
 
-  /* Tamanho original restaurado para o Desktop */
   .hero-copy h1{
     color:#fff;
-    font-size:clamp(64px, 8vw, 110px);
+    font-size:clamp(72px, 10vw, 130px);
     letter-spacing:-.02em;
     line-height:0.95;
   }
-  /* O .accent agora tem 1em, ficando do mesmo exato tamanho que a linha de cima */
   .hero-copy h1 .accent{
     color:var(--gold-light);
     display:block;
@@ -268,7 +266,6 @@
     --card-scale: 1;
   }
   
-  /* Posição original restaurada para o Desktop */
   .card-shadow{
     position:absolute;
     width:340px;
@@ -350,7 +347,6 @@
     z-index:3;
     text-align: left;
   }
-  /* Posição original restaurada para o Desktop */
   .shape-ring{
     bottom:45px; 
     right: 40px; 
@@ -746,7 +742,6 @@
   }
   .contact-links a:hover::after{width:100%;}
 
-  /* Rede Posicionada Originalmente (Lateral Direita) no Desktop */
   .network-wrap{
     position:absolute;
     top:50%;
@@ -824,7 +819,7 @@
     .traj-grid{gap:18px;}
   }
 
-  /* Tablets (Aqui aplicamos as Correções e Ancoragens) */
+  /* Tablets */
   @media (max-width:900px){
     .container{padding:0 32px;}
     nav{padding:30px 32px 0;}
@@ -845,7 +840,6 @@
     
     .hero-art{margin-top:60px; min-height:380px;}
     
-    /* Ancoragem exata da sombra a partir de Tablets */
     .card-shadow{
       right: auto;
       left: 50%;
@@ -857,7 +851,6 @@
       grid-template-columns:1fr; 
       gap:64px;
     }
-    /* Textos alinhados à esquerda para Mobile e Tablet */
     .about-card { text-align: left; }
     .about-card p { margin: 0 auto; }
     .about-facts { align-items: flex-start; text-align: left; }
@@ -872,7 +865,6 @@
     .traj-grid{grid-template-columns:repeat(2, 1fr);}
     .curric-grid{grid-template-columns:repeat(2, 1fr); row-gap:40px;}
     
-    /* Projetos alinhados à esquerda */
     #projetos { text-align: left; }
     .proj-grid{
       grid-template-columns:1fr; 
@@ -882,8 +874,9 @@
     }
     
     .contact-section{padding:80px 40px;}
-    /* Rede centralizada apenas a partir dos tablets */
-    .network-wrap{width:80%; left:50%; right:auto; transform:translate(-50%, -50%); opacity:.4;}
+    
+    /* Rede movida para a direita (não sobrepõe links) */
+    .network-wrap{width:70%; left:auto; right:-10%; top:50%; transform:translateY(-50%); opacity:.4;}
   }
 
   @media (max-width:760px){
@@ -944,8 +937,8 @@
     .hero-copy .eyebrow { margin-bottom: 20px; }
     .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
     
-    /* Escala adaptável garantindo que não quebre e os nomes fiquem iguais */
-    .hero-copy h1{ font-size:clamp(50px, 14vw, 68px); line-height:0.95; }
+    /* Fonte gigantesca no Mobile */
+    .hero-copy h1{ font-size:clamp(64px, 18vw, 92px); line-height:0.95; }
     .hero-copy h1 .accent { font-size:1em; margin-top:4px; }
     
     .hero-copy p.lede{ font-size:16px; margin:24px 0 32px; max-width:95%; }
@@ -953,7 +946,6 @@
 
     .hero-art{min-height:360px; margin-top:40px;}
     
-    /* Proteção para os elementos não cortarem a tela no mobile */
     .photo-wrap{
       max-width: 260px; 
       margin: 0 auto; 
@@ -980,7 +972,8 @@
     .contact-links{align-items:flex-start;}
     .contact-links a{font-size:19px;}
     
-    .network-wrap{width:100%; left:50%; right:auto; top:50%; transform:translate(-50%, -50%); opacity:.3;}
+    /* Rede movida e cortada na direita no celular */
+    .network-wrap{width:90%; left:auto; right:-25%; top:50%; transform:translateY(-50%); opacity:.3;}
     
     .project-modal { padding: 20px; }
     .modal-inner { padding: 40px 24px; }
@@ -989,7 +982,7 @@
 
   @media (max-width:400px){
     :root { --card-scale: 0.7; }
-    .hero-copy h1{font-size:48px;}
+    .hero-copy h1{font-size:64px;}
     .hero-copy h1 .accent {font-size:1em;}
     .hero-art{min-height:320px;}
     .tags{gap:8px;}
