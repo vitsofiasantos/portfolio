@@ -719,10 +719,10 @@
   .contact-links a{
     font-family:'Lora', serif;
     font-size:22px;
-    color:#f0e7d8;
+    color:#ffffff;
     position:relative;
     transition:color .3s ease, opacity .3s ease;
-    opacity: 0.7;
+    opacity: 1;
     
     display: flex;
     align-items: center;
@@ -875,7 +875,6 @@
     
     .contact-section{padding:80px 40px;}
     
-    /* Rede movida para a direita (não sobrepõe links) */
     .network-wrap{width:70%; left:auto; right:-10%; top:50%; transform:translateY(-50%); opacity:.4;}
   }
 
@@ -931,31 +930,30 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:32px;
+      gap:16px;
     }
     .hero-copy { display:flex; flex-direction:column; align-items:center; }
     .hero-copy .eyebrow { margin-bottom: 20px; }
     .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
     
-    /* Fonte gigantesca no Mobile */
     .hero-copy h1{ font-size:clamp(64px, 18vw, 92px); line-height:0.95; }
     .hero-copy h1 .accent { font-size:1em; margin-top:4px; }
     
     .hero-copy p.lede{ font-size:16px; margin:24px 0 32px; max-width:95%; }
     .tags { justify-content:center; }
 
-    .hero-art{min-height:360px; margin-top:40px;}
+    .hero-art{min-height:360px; margin-top:10px;}
     
     .photo-wrap{
-      max-width: 260px; 
+      max-width: 310px; 
       margin: 0 auto; 
     }
     .photo-deco-circle {
-      width: 80px; height: 80px;
-      top: -20px; right: -20px;
+      width: 90px; height: 90px;
+      top: -15px; right: -15px;
     }
     .photo-deco-square {
-      width: 50px; height: 50px;
+      width: 60px; height: 60px;
       bottom: -15px; left: -15px;
     }
     
@@ -972,7 +970,6 @@
     .contact-links{align-items:flex-start;}
     .contact-links a{font-size:19px;}
     
-    /* Rede movida e cortada na direita no celular */
     .network-wrap{width:90%; left:auto; right:-25%; top:50%; transform:translateY(-50%); opacity:.3;}
     
     .project-modal { padding: 20px; }
