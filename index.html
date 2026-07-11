@@ -822,64 +822,9 @@
   /* Tablets */
   @media (max-width:900px){
     .container{padding:0 32px;}
-    nav{padding:30px 32px 0;}
     
-    .hero{
-      grid-template-columns:1fr; 
-      padding:48px 32px 64px; 
-      text-align:center; 
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:32px;
-    }
-    .hero-copy { display:flex; flex-direction:column; align-items:center; }
-    .hero-copy .eyebrow { margin-bottom: 20px; }
-    .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
-    .tags { justify-content:center; }
-    
-    .hero-art{margin-top:60px; min-height:380px;}
-    
-    .card-shadow{
-      right: auto;
-      left: 50%;
-      top: 50%;
-      transform: translate(calc(-50% + 20px), calc(-50% + 25px)) scale(var(--card-scale)) rotate(10deg);
-    }
-    
-    .about-grid{
-      grid-template-columns:1fr; 
-      gap:64px;
-    }
-    .about-card { text-align: left; }
-    .about-card p { margin: 0 auto; }
-    .about-facts { align-items: flex-start; text-align: left; }
-    
-    .photo-wrap{
-      max-width: 420px;
-      margin: 0 auto; 
-    }
-
-    .about-card{padding:42px;}
-    .traj-head{grid-template-columns:1fr; gap:20px; align-items:start;}
-    .traj-grid{grid-template-columns:repeat(2, 1fr);}
-    .curric-grid{grid-template-columns:repeat(2, 1fr); row-gap:40px;}
-    
-    #projetos { text-align: left; }
-    .proj-grid{
-      grid-template-columns:1fr; 
-      max-width:520px; 
-      margin: 0 auto; 
-      text-align: left; 
-    }
-    
-    .contact-section{padding:80px 40px;}
-    
-    .network-wrap{width:70%; left:auto; right:-10%; top:50%; transform:translateY(-50%); opacity:.4;}
-  }
-
-  @media (max-width:760px){
-    nav{justify-content:flex-end; align-items:center;}
+    /* MOSTRA MENU HAMBÚRGUER EM TABLET E MOBILE */
+    nav{padding:30px 32px 0; justify-content:flex-end; align-items:center;}
     .nav-toggle{display:flex;}
     .nav-links{
       display:flex;
@@ -915,6 +860,59 @@
     .nav-links a::after{display:none;}
     .nav-links a:hover{background:rgba(211,167,92,.12);}
     .nav-links a + a{border-top:1px solid rgba(255,255,255,.06);}
+    
+    .hero{
+      grid-template-columns:1fr; 
+      padding:48px 32px 64px; 
+      text-align:center; 
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:32px;
+    }
+    .hero-copy { display:flex; flex-direction:column; align-items:center; }
+    .hero-copy .eyebrow { margin-bottom: 20px; }
+    .hero-copy .eyebrow::after { left:50%; transform:translateX(-50%); }
+    .tags { justify-content:center; }
+    
+    .hero-art{margin-top:60px; min-height:380px;}
+    
+    .card-shadow{
+      right: auto;
+      left: 50%;
+      top: 50%;
+      transform: translate(calc(-50% + 20px), calc(-50% + 25px)) scale(var(--card-scale)) rotate(10deg);
+    }
+    
+    .about-grid{
+      grid-template-columns:1fr; 
+      gap:64px;
+    }
+    .about-card { text-align: left; }
+    .about-card p { margin: 0; max-width: none; }
+    .about-facts { align-items: flex-start; text-align: left; margin-top: 26px; }
+    
+    .photo-wrap{
+      max-width: 420px;
+      margin: 0 auto; 
+    }
+
+    .about-card{padding:42px;}
+    .traj-head{grid-template-columns:1fr; gap:20px; align-items:start;}
+    .traj-grid{grid-template-columns:repeat(2, 1fr);}
+    .curric-grid{grid-template-columns:repeat(2, 1fr); row-gap:40px;}
+    
+    #projetos { text-align: center; }
+    .proj-grid{
+      grid-template-columns:1fr; 
+      max-width:520px; 
+      margin: 0 auto; 
+      text-align: left; 
+    }
+    
+    .contact-section{padding:80px 40px;}
+    
+    .network-wrap{width:70%; left:auto; right:-10%; top:50%; transform:translateY(-50%); opacity:.4;}
   }
 
   @media (max-width:640px){
