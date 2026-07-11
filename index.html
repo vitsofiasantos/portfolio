@@ -376,7 +376,7 @@
     border:2px solid var(--gold);
     border-radius:50%;
     z-index:0;
-    animation:spin 22s linear infinite;
+    animation:floatCircle 6s ease-in-out infinite;
   }
   @keyframes spin{ to { transform:rotate(360deg);} }
   .photo-deco-square{
@@ -392,6 +392,10 @@
   @keyframes squareSway{
     0%,100%{transform:rotate(14deg) translateY(0);}
     50%{transform:rotate(22deg) translateY(-8px);}
+  }
+  @keyframes floatCircle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
   }
   .photo-frame{
     position:relative;
