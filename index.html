@@ -166,7 +166,7 @@
     gap:5px;
     background:none;
     border:none;
-    cursor:pointer;
+    cursor:none;
     padding:10px;
     margin:-10px;
     border-radius:8px;
@@ -591,7 +591,6 @@
     font-weight:700;
     letter-spacing:.1em;
     color:var(--gold);
-    cursor:pointer;
     width:fit-content;
     background:none;
     border:none;
@@ -654,7 +653,6 @@
     color: #fff;
     border: none;
     font-size: 28px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1000,9 +998,61 @@
     .curric-title, .proj-title{font-size:30px;}
     .contact-copy h2{font-size:32px;}
   }
+
+  /* ==============================================
+     CURSOR PERSONALIZADO (A MIRA / LENTE DE DADOS)
+     ============================================== */
+  @media (pointer: fine) {
+    body, a, button, .proj-link, .nav-toggle, .primary-btn, .close-btn {
+      cursor: none !important;
+    }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate3d(-50%, -50%, 0);
+      transition: background-color 0.2s ease, transform 0.15s ease-out;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 34px; height: 34px;
+      border: 1.5px solid var(--gold-light);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate3d(-50%, -50%, 0);
+      transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Efeito de Hover em links e botões */
+    body.cursor-hover .cursor-dot {
+      transform: translate3d(-50%, -50%, 0) scale(0);
+    }
+    body.cursor-hover .cursor-ring {
+      width: 50px; height: 50px;
+      background-color: rgba(189, 138, 63, 0.15); /* Fundo sutil dourado */
+      border-color: var(--gold);
+    }
+  }
+  
+  @media (pointer: coarse) {
+    /* No mobile, o cursor personalizado é oculto e restaura o comportamento padrão */
+    .cursor-dot, .cursor-ring { display: none !important; }
+  }
 </style>
 </head>
 <body>
+
+<!-- Elementos do Cursor Personalizado -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
 
 <div class="hero-wrap">
   <nav>
@@ -1266,6 +1316,41 @@
 
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Lógica do Cursor Personalizado
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let mouseX = -100, mouseY = -100;
+    let ringX = -100, ringY = -100;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      // Atualiza o dot instantaneamente
+      dot.style.transform = `translate3d(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%), 0)`;
+    });
+
+    // Render loop para suavizar o anel (trailing effect)
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.25; // Define a velocidade de "atraso" da mira
+      ringY += (mouseY - ringY) * 0.25;
+      ring.style.transform = `translate3d(calc(${ringX}px - 50%), calc(${ringY}px - 50%), 0)`;
+      requestAnimationFrame(renderCursor);
+    }
+    requestAnimationFrame(renderCursor);
+
+    // Efeito de Hover nas interações
+    const interactables = document.querySelectorAll('a, button, .proj-link, .nav-toggle, .primary-btn, .close-btn');
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        document.body.classList.add('cursor-hover');
+      });
+      el.addEventListener('mouseleave', () => {
+        document.body.classList.remove('cursor-hover');
+      });
+    });
+  }
 
   // Count-up animation for the trajectory years
   function countUp(el){
