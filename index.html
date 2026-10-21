@@ -470,23 +470,15 @@
   .traj-grid{
     --per-view:4;
     --gap:22px;
-    display:flex;
+    display:grid;
+    grid-template-columns:repeat(var(--per-view), minmax(0, 1fr));
     gap:var(--gap);
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    scroll-behavior:smooth;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    --edge:18px;
-    padding:22px var(--edge) 42px;
-    margin:-22px calc(var(--edge) * -1) -42px;
-    scroll-padding-inline:var(--edge);
   }
-  .traj-grid::-webkit-scrollbar{display:none;}
   .traj-grid > .traj-card{
-    flex:0 0 calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
-    scroll-snap-align:start;
+    transition:opacity .35s ease, transform .5s cubic-bezier(.22,1.4,.44,1), box-shadow .4s ease;
   }
+  .traj-grid > .traj-card.is-off{display:none;}
+  .traj-grid > .traj-card.leaving{opacity:0; transform:translateX(-14px) scale(.98); pointer-events:none;}
   .traj-controls{
     display:flex;
     align-items:center;
@@ -534,9 +526,6 @@
   .traj-card:hover{
     transform:translateY(-8px);
     box-shadow:0 20px 40px rgba(0,0,0,.15);
-  }
-  .traj-grid > .traj-card:hover{
-    box-shadow:0 12px 20px rgba(0,0,0,.16);
   }
   .traj-card::before{
     content:"";
@@ -1702,73 +1691,97 @@
     }
   }
 
-  // Carrossel da trajetória
+  // Carrossel da trajetória (troca de página com fade, sem rolagem nem cortes)
   (function(){
     const track = document.getElementById('trajTrack');
     if(!track) return;
     const cards = Array.from(track.querySelectorAll('.traj-card'));
-    // Revela todos os cards de uma vez na entrada da seção, para não "pipocarem" durante a rolagem do carrossel
-    cards.forEach(c => io.unobserve(c));
-    // O ano de cada card refaz a contagem sempre que ele entra na área visível do carrossel (na entrada, ao avançar ou ao voltar)
-    const yearIo = new IntersectionObserver((entries)=>{
-      entries.forEach(en=>{
-        const y = en.target.querySelector('.traj-year[data-year]');
-        if(!y) return;
-        if(en.intersectionRatio >= 0.5){
-          countUp(y);
-        } else if(en.intersectionRatio === 0 && !reduceMotion){
-          // card fora de vista: deixa o ano pronto no valor inicial para a próxima contagem ser visível
-          y._countId = null;
-          y.textContent = parseInt(y.dataset.year, 10) - 14;
-        }
-      });
-    }, {root:track, threshold:[0, 0.5]});
-    const entryIo = new IntersectionObserver((entries)=>{
-      if(!entries[0].isIntersecting) return;
-      cards.forEach(c=>{
-        c.classList.add('in-view');
-        yearIo.observe(c);
-      });
-      entryIo.disconnect();
-    }, {threshold:0.15});
-    entryIo.observe(track);
     const prev = document.getElementById('trajPrev');
     const next = document.getElementById('trajNext');
     const dotsWrap = document.getElementById('trajDots');
     const count = document.getElementById('trajCount');
-    cards.forEach((_, i)=>{
-      const d = document.createElement('button');
-      d.className = 'traj-dot';
-      d.type = 'button';
-      d.tabIndex = -1;
-      d.addEventListener('click', ()=> goTo(i));
-      dotsWrap.appendChild(d);
-    });
-    const dots = Array.from(dotsWrap.children);
-    const perView = ()=> Math.round(track.clientWidth / cards[0].getBoundingClientRect().width) || 1;
-    const step = ()=> cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
-    const maxIndex = ()=> Math.max(0, cards.length - perView());
-    function current(){ return Math.min(maxIndex(), Math.round(track.scrollLeft / step())); }
-    function goTo(i){ track.scrollTo({left: Math.max(0, Math.min(maxIndex(), i)) * step(), behavior:'smooth'}); }
-    function update(){
-      const i = current();
-      const atEnd = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
-      const idx = atEnd ? maxIndex() : i;
-      dots.forEach((d, k)=> d.classList.toggle('active', k === idx));
-      const last = Math.min(cards.length, idx + perView());
-      count.textContent = perView() > 1 ? (idx + 1) + '–' + last + ' / ' + cards.length : (idx + 1) + ' / ' + cards.length;
-      prev.disabled = track.scrollLeft <= 4;
-      next.disabled = atEnd;
+    const perView = ()=> parseInt(getComputedStyle(track).getPropertyValue('--per-view'), 10) || 1;
+    const maxStart = ()=> Math.max(0, cards.length - perView());
+    let start = 0;
+    let busy = false;
+    let dots = [];
+
+    const pages = ()=> Math.ceil(cards.length / perView());
+    const activePage = ()=> start >= maxStart() ? pages() - 1 : Math.floor(start / perView());
+
+    function buildDots(){
+      const total = pages();
+      if(dots.length === total) return;
+      dotsWrap.innerHTML = '';
+      dots = Array.from({length: total}, (_, i)=>{
+        const d = document.createElement('button');
+        d.className = 'traj-dot';
+        d.type = 'button';
+        d.tabIndex = -1;
+        d.addEventListener('click', ()=> goTo(Math.min(i * perView(), maxStart())));
+        dotsWrap.appendChild(d);
+        return d;
+      });
     }
-    prev.addEventListener('click', ()=> goTo(current() - 1));
-    next.addEventListener('click', ()=> goTo(current() + 1));
-    track.addEventListener('scroll', ()=> requestAnimationFrame(update), {passive:true});
+
+    function updateUI(){
+      buildDots();
+      const per = perView();
+      const last = Math.min(cards.length, start + per);
+      count.textContent = per > 1 ? (start + 1) + '–' + last + ' / ' + cards.length : (start + 1) + ' / ' + cards.length;
+      dots.forEach((d, k)=> d.classList.toggle('active', k === activePage()));
+      prev.disabled = start <= 0;
+      next.disabled = start >= maxStart();
+    }
+
+    function showWindow(animate){
+      const per = perView();
+      cards.forEach((c, i)=>{
+        const on = i >= start && i < start + per;
+        c.classList.remove('leaving');
+        c.classList.toggle('is-off', !on);
+        if(!on) return;
+        const y = c.querySelector('.traj-year[data-year]');
+        if(!animate){ c.classList.add('in-view'); return; }
+        // entrada escalonada + contagem do ano
+        const order = i - start;
+        c.classList.remove('in-view');
+        c.style.transitionDelay = (order * 70) + 'ms';
+        if(y && !reduceMotion){ y.textContent = parseInt(y.dataset.year, 10) - 14; y._countId = null; }
+        void c.offsetWidth;
+        c.classList.add('in-view');
+        setTimeout(()=>{ if(y){ countUp(y); } c.style.transitionDelay = ''; }, order * 70 + 120);
+      });
+      updateUI();
+    }
+
+    function goTo(newStart){
+      newStart = Math.max(0, Math.min(maxStart(), newStart));
+      if(busy || newStart === start) return;
+      busy = true;
+      const per = perView();
+      cards.forEach((c, i)=>{ if(i >= start && i < start + per) c.classList.add('leaving'); });
+      setTimeout(()=>{
+        start = newStart;
+        showWindow(true);
+        setTimeout(()=>{ busy = false; }, 350);
+      }, 260);
+    }
+
+    prev.addEventListener('click', ()=> goTo(start - perView()));
+    next.addEventListener('click', ()=> goTo(start + perView()));
     track.addEventListener('keydown', e=>{
-      if(e.key === 'ArrowRight'){ e.preventDefault(); goTo(current() + 1); }
-      if(e.key === 'ArrowLeft'){ e.preventDefault(); goTo(current() - 1); }
+      if(e.key === 'ArrowRight'){ e.preventDefault(); goTo(start + perView()); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); goTo(start - perView()); }
     });
-    window.addEventListener('resize', update);
-    update();
+    window.addEventListener('resize', ()=>{
+      start = Math.min(start, maxStart());
+      showWindow(false);
+    });
+
+    // Estado inicial: só a primeira página visível; a entrada animada vem do reveal original
+    cards.forEach((c, i)=>{ if(i >= perView()) c.classList.add('is-off'); });
+    updateUI();
   })();
 
   // Detalhes das experiências (conteúdo do LinkedIn)
