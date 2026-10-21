@@ -499,25 +499,29 @@
     width:9px; height:9px;
     border-radius:50%;
     border:0; padding:0;
-    background:rgba(60,40,15,.22);
+    background:rgba(60,40,15,.14);
     cursor:pointer;
     transition:background .3s ease, transform .3s ease, width .3s ease;
   }
-  .traj-dot.active{background:rgba(60,40,15,.6); width:26px; border-radius:6px;}
+  .traj-dot.active{background:rgba(60,40,15,.38); width:26px; border-radius:6px;}
   .traj-nav{display:flex; align-items:center; gap:12px;}
-  .traj-count{font-weight:700; font-size:14px; color:rgba(60,40,15,.65); min-width:52px; text-align:right;}
+  .traj-count{font-weight:700; font-size:14px; color:rgba(60,40,15,.45); min-width:52px; text-align:right;}
   .traj-btn{
     width:48px; height:48px;
     border-radius:50%;
-    border:2px solid rgba(60,40,15,.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    border:2px solid rgba(60,40,15,.25);
     background:transparent;
-    color:rgba(60,40,15,.65);
+    color:rgba(60,40,15,.45);
     font-size:20px;
     line-height:1;
     cursor:pointer;
     transition:background .25s ease, color .25s ease, opacity .25s ease, transform .25s ease;
   }
-  .traj-btn:hover:not(:disabled){background:rgba(60,40,15,.65); color:var(--cream); border-color:transparent; transform:scale(1.06);}
+  .traj-btn:hover:not(:disabled){background:rgba(60,40,15,.45); color:var(--cream); border-color:transparent; transform:scale(1.06);}
   .traj-btn:disabled{opacity:.3; cursor:default;}
   .traj-card{
     background:#fff;
@@ -1305,8 +1309,8 @@
       <div class="traj-dots" id="trajDots" aria-hidden="true"></div>
       <div class="traj-nav">
         <span class="traj-count" id="trajCount">1 / 10</span>
-        <button class="traj-btn" id="trajPrev" aria-label="Experiência anterior">←</button>
-        <button class="traj-btn" id="trajNext" aria-label="Próxima experiência">→</button>
+        <button class="traj-btn" id="trajPrev" aria-label="Experiência anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="traj-btn" id="trajNext" aria-label="Próxima experiência"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </div>
     </div>
@@ -1607,7 +1611,9 @@
     const start = target - 14;
     const duration = 900;
     const t0 = performance.now();
+    el._countId = t0; // evita duas contagens simultâneas no mesmo card
     function tick(now){
+      if(el._countId !== t0){ return; }
       const p = Math.min(1, (now - t0) / duration);
       const eased = 1 - Math.pow(1 - p, 3);
       el.textContent = Math.round(start + (target - start) * eased);
@@ -1701,6 +1707,31 @@
     const track = document.getElementById('trajTrack');
     if(!track) return;
     const cards = Array.from(track.querySelectorAll('.traj-card'));
+    // Revela todos os cards de uma vez na entrada da seção, para não "pipocarem" durante a rolagem do carrossel
+    cards.forEach(c => io.unobserve(c));
+    // O ano de cada card refaz a contagem sempre que ele entra na área visível do carrossel (na entrada, ao avançar ou ao voltar)
+    const yearIo = new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        const y = en.target.querySelector('.traj-year[data-year]');
+        if(!y) return;
+        if(en.intersectionRatio >= 0.5){
+          countUp(y);
+        } else if(en.intersectionRatio === 0 && !reduceMotion){
+          // card fora de vista: deixa o ano pronto no valor inicial para a próxima contagem ser visível
+          y._countId = null;
+          y.textContent = parseInt(y.dataset.year, 10) - 14;
+        }
+      });
+    }, {root:track, threshold:[0, 0.5]});
+    const entryIo = new IntersectionObserver((entries)=>{
+      if(!entries[0].isIntersecting) return;
+      cards.forEach(c=>{
+        c.classList.add('in-view');
+        yearIo.observe(c);
+      });
+      entryIo.disconnect();
+    }, {threshold:0.15});
+    entryIo.observe(track);
     const prev = document.getElementById('trajPrev');
     const next = document.getElementById('trajNext');
     const dotsWrap = document.getElementById('trajDots');
