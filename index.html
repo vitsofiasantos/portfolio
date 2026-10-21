@@ -466,11 +466,59 @@
     max-width:420px;
   }
 
+  .traj-carousel{position:relative;}
   .traj-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:22px;
+    --per-view:4;
+    --gap:22px;
+    display:flex;
+    gap:var(--gap);
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    --edge:18px;
+    padding:22px var(--edge) 42px;
+    margin:-22px calc(var(--edge) * -1) -42px;
+    scroll-padding-inline:var(--edge);
   }
+  .traj-grid::-webkit-scrollbar{display:none;}
+  .traj-grid > .traj-card{
+    flex:0 0 calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
+    scroll-snap-align:start;
+  }
+  .traj-controls{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    margin-top:44px;
+  }
+  .traj-dots{display:flex; gap:8px; flex-wrap:wrap;}
+  .traj-dot{
+    width:9px; height:9px;
+    border-radius:50%;
+    border:0; padding:0;
+    background:rgba(36,26,18,.28);
+    cursor:pointer;
+    transition:background .3s ease, transform .3s ease, width .3s ease;
+  }
+  .traj-dot.active{background:var(--ink); width:26px; border-radius:6px;}
+  .traj-nav{display:flex; align-items:center; gap:12px;}
+  .traj-count{font-weight:700; font-size:14px; color:#3a2c18; min-width:52px; text-align:right;}
+  .traj-btn{
+    width:48px; height:48px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    font-size:20px;
+    line-height:1;
+    cursor:pointer;
+    transition:background .25s ease, color .25s ease, opacity .25s ease, transform .25s ease;
+  }
+  .traj-btn:hover:not(:disabled){background:var(--ink); color:var(--gold); transform:scale(1.06);}
+  .traj-btn:disabled{opacity:.3; cursor:default;}
   .traj-card{
     background:#fff;
     border-radius:16px;
@@ -483,6 +531,9 @@
     transform:translateY(-8px);
     box-shadow:0 20px 40px rgba(0,0,0,.15);
   }
+  .traj-grid > .traj-card:hover{
+    box-shadow:0 12px 20px rgba(0,0,0,.16);
+  }
   .traj-card::before{
     content:"";
     position:absolute;
@@ -494,15 +545,36 @@
     pointer-events:none;
   }
   .traj-card:hover::before{opacity:1;}
-  .traj-year, .traj-role, .traj-org{position:relative; z-index:1;}
+  .traj-year, .traj-period, .traj-role, .traj-org{position:relative; z-index:1;}
   .traj-year{
     font-family:'Lora', serif;
     font-size:30px;
     color:var(--gold);
-    margin-bottom:26px;
+    margin-bottom:6px;
+  }
+  .traj-period{
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:20px;
   }
   .traj-role{font-weight:700; font-size:16px; margin-bottom:4px;}
   .traj-org{font-size:14px; color:var(--muted);}
+
+
+  /* Cards clicáveis + detalhes */
+  .traj-grid > .traj-card{cursor:pointer;}
+  .traj-grid > .traj-card:focus-visible{outline:3px solid var(--ink); outline-offset:3px;}
+  .traj-link{position:relative; z-index:1; margin-top:22px;}
+  .traj-card:hover .proj-plus{transform:rotate(90deg); background:var(--ink);}
+  .exp-org{font-size:17px; font-weight:700; color:var(--gold); margin:-8px 0 24px;}
+  .exp-block{margin-top:32px; padding-top:24px; border-top:1px solid #e7dcc9;}
+  .exp-block h4{font-size:20px; color:var(--ink); margin-bottom:16px;}
+  .exp-list{list-style:none; display:flex; flex-direction:column; gap:12px; padding:0;}
+  .exp-list li{position:relative; padding-left:22px; font-size:15.5px; line-height:1.65; color:var(--muted);}
+  .exp-list li::before{content:"•"; position:absolute; left:2px; color:var(--gold); font-size:20px; line-height:1.3;}
 
   /* ===== CURRÍCULO ===== */
   .curric-title{
@@ -858,7 +930,7 @@
     .nav-links{gap:32px;}
     nav a{font-size:14.5px;}
     .hero{padding:60px 44px 80px;}
-    .traj-grid{gap:18px;}
+    .traj-grid{--gap:18px;}
   }
 
   /* Tablets */
@@ -941,7 +1013,7 @@
 
     .about-card{padding:42px;}
     .traj-head{grid-template-columns:1fr; gap:20px; align-items:start;}
-    .traj-grid{grid-template-columns:repeat(2, 1fr);}
+    .traj-grid{--per-view:2;}
     .curric-grid{grid-template-columns:repeat(2, 1fr); row-gap:40px;}
     
     #projetos { text-align: center; }
@@ -1006,7 +1078,8 @@
     .container{padding:0 22px;}
     .about-card{padding:26px;}
     .about-card h2{font-size:28px;}
-    .traj-grid{grid-template-columns:1fr;}
+    .traj-grid{--per-view:1;}
+    .traj-btn{width:44px; height:44px;}
     .curric-grid{grid-template-columns:1fr; row-gap:32px;}
     .proj-card{padding:30px 26px;}
     .proj-card p{min-height:0;}
@@ -1159,27 +1232,87 @@
       <h2 class="reveal">Trajetória em camadas</h2>
       <p class="reveal reveal-delay-1">Resumo das experiências em pesquisa, social CRM e sucesso do cliente, conectando dados, comunicação e Ciências Sociais.</p>
     </div>
-    <div class="traj-grid">
-      <div class="traj-card reveal">
+    <div class="traj-carousel">
+    <div class="traj-grid" id="trajTrack" tabindex="0" aria-label="Experiências profissionais">
+      <div role="button" tabindex="0" data-exp="0" aria-label="Ver detalhes: Analista de Dados, IDEIA · Brasil" class="traj-card reveal">
         <div class="traj-year" data-year="2026">2026</div>
-        <div class="traj-role">Analista de Pesquisa</div>
-        <div class="traj-org">IDEIA · São Paulo</div>
+        <div class="traj-period">mai. 2026 – atual</div>
+        <div class="traj-role">Analista de Dados</div>
+        <div class="traj-org">IDEIA · Brasil</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
-      <div class="traj-card reveal reveal-delay-1">
-        <div class="traj-year" data-year="2024">2024</div>
-        <div class="traj-role">Customer Success</div>
-        <div class="traj-org">v-tracker · Brasília</div>
+      <div role="button" tabindex="0" data-exp="1" aria-label="Ver detalhes: Assistente de Pesquisa, IDEIA · Brasil" class="traj-card reveal reveal-delay-1">
+        <div class="traj-year" data-year="2026">2026</div>
+        <div class="traj-period">jan. 2026 – abr. 2026</div>
+        <div class="traj-role">Assistente de Pesquisa</div>
+        <div class="traj-org">IDEIA · Brasil</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
-      <div class="traj-card reveal reveal-delay-2">
+      <div role="button" tabindex="0" data-exp="2" aria-label="Ver detalhes: Assistente de Customer Success, v-tracker · São Paulo" class="traj-card reveal reveal-delay-2">
         <div class="traj-year" data-year="2024">2024</div>
-        <div class="traj-role">Customer Success</div>
+        <div class="traj-period">ago. 2024 – jan. 2026</div>
+        <div class="traj-role">Assistente de Customer Success</div>
+        <div class="traj-org">v-tracker · São Paulo</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
+      </div>
+      <div role="button" tabindex="0" data-exp="3" aria-label="Ver detalhes: Assistente de Customer Success, Buzzmonitor · São Paulo" class="traj-card reveal reveal-delay-3">
+        <div class="traj-year" data-year="2024">2024</div>
+        <div class="traj-period">fev. 2024 – ago. 2024</div>
+        <div class="traj-role">Assistente de Customer Success</div>
         <div class="traj-org">Buzzmonitor · São Paulo</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
-      <div class="traj-card reveal reveal-delay-3">
+      <div role="button" tabindex="0" data-exp="4" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Renault Brasil)" class="traj-card reveal">
         <div class="traj-year" data-year="2023">2023</div>
+        <div class="traj-period">mar. 2023 – fev. 2024</div>
         <div class="traj-role">Analista de Social CRM</div>
-        <div class="traj-org">Elife Brasil · São Paulo</div>
+        <div class="traj-org">Elife · São Paulo (Renault Brasil)</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
+      <div role="button" tabindex="0" data-exp="5" aria-label="Ver detalhes: Analista de Social Listening, Quid · São Paulo" class="traj-card reveal reveal-delay-1">
+        <div class="traj-year" data-year="2022">2022</div>
+        <div class="traj-period">jun. 2022 – dez. 2022</div>
+        <div class="traj-role">Analista de Social Listening</div>
+        <div class="traj-org">Quid · São Paulo</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
+      </div>
+      <div role="button" tabindex="0" data-exp="6" aria-label="Ver detalhes: Analista de Chatbot, Elife · São Paulo" class="traj-card reveal reveal-delay-2">
+        <div class="traj-year" data-year="2022">2022</div>
+        <div class="traj-period">fev. 2022 – jun. 2022</div>
+        <div class="traj-role">Analista de Chatbot</div>
+        <div class="traj-org">Elife · São Paulo</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
+      </div>
+      <div role="button" tabindex="0" data-exp="7" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Cyrela, Vivaz e Living)" class="traj-card reveal reveal-delay-3">
+        <div class="traj-year" data-year="2021">2021</div>
+        <div class="traj-period">ago. 2021 – fev. 2022</div>
+        <div class="traj-role">Analista de Social CRM</div>
+        <div class="traj-org">Elife · São Paulo (Cyrela, Vivaz e Living)</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
+      </div>
+      <div role="button" tabindex="0" data-exp="8" aria-label="Ver detalhes: Designer Gráfico, Agência Prana Digital · Rio de Janeiro" class="traj-card reveal">
+        <div class="traj-year" data-year="2021">2021</div>
+        <div class="traj-period">mai. 2021 – mar. 2022</div>
+        <div class="traj-role">Designer Gráfico</div>
+        <div class="traj-org">Agência Prana Digital · Rio de Janeiro</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
+      </div>
+      <div role="button" tabindex="0" data-exp="9" aria-label="Ver detalhes: Social Media Designer, MC2 Performance Organizacional" class="traj-card reveal reveal-delay-1">
+        <div class="traj-year" data-year="2021">2021</div>
+        <div class="traj-period">jan. 2021 – ago. 2021</div>
+        <div class="traj-role">Social Media Designer</div>
+        <div class="traj-org">MC2 Performance Organizacional</div>
+        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
+      </div>
+    </div>
+    <div class="traj-controls">
+      <div class="traj-dots" id="trajDots" aria-hidden="true"></div>
+      <div class="traj-nav">
+        <span class="traj-count" id="trajCount">1 / 10</span>
+        <button class="traj-btn" id="trajPrev" aria-label="Experiência anterior">←</button>
+        <button class="traj-btn" id="trajNext" aria-label="Próxima experiência">→</button>
+      </div>
+    </div>
     </div>
   </div>
 </section>
@@ -1305,6 +1438,19 @@
 <!-- ============================================== -->
 <!-- ESTRUTURAS DAS LANDING PAGES DOS PROJETOS (MODAIS) -->
 <!-- ============================================== -->
+
+<!-- Modal: detalhes da experiência -->
+<div class="project-modal" id="modal-exp" onclick="closeOnBgClick(event, 'modal-exp')">
+  <div class="modal-inner" role="dialog" aria-modal="true" aria-labelledby="expRole">
+    <button class="close-btn" onclick="closeModal('modal-exp')" aria-label="Fechar">×</button>
+    <span class="eyebrow" id="expPeriod"></span>
+    <h2 id="expRole"></h2>
+    <div class="exp-org" id="expOrg"></div>
+    <div id="expDesc"></div>
+    <div class="exp-block" id="expItemsBlock"><h4>Atividades</h4><ul class="exp-list" id="expItems"></ul></div>
+    <div class="exp-block" id="expAttBlock"><h4>Anexos</h4><ul class="media-list" id="expAtt"></ul></div>
+  </div>
+</div>
 
 <!-- Modal 1: Pesquisa Meio/Ideia -->
 <div class="project-modal" id="modal-meio" onclick="closeOnBgClick(event, 'modal-meio')">
@@ -1544,6 +1690,224 @@
       closeModal(modalId);
     }
   }
+
+  // Carrossel da trajetória
+  (function(){
+    const track = document.getElementById('trajTrack');
+    if(!track) return;
+    const cards = Array.from(track.querySelectorAll('.traj-card'));
+    const prev = document.getElementById('trajPrev');
+    const next = document.getElementById('trajNext');
+    const dotsWrap = document.getElementById('trajDots');
+    const count = document.getElementById('trajCount');
+    cards.forEach((_, i)=>{
+      const d = document.createElement('button');
+      d.className = 'traj-dot';
+      d.type = 'button';
+      d.tabIndex = -1;
+      d.addEventListener('click', ()=> goTo(i));
+      dotsWrap.appendChild(d);
+    });
+    const dots = Array.from(dotsWrap.children);
+    const perView = ()=> Math.round(track.clientWidth / cards[0].getBoundingClientRect().width) || 1;
+    const step = ()=> cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
+    const maxIndex = ()=> Math.max(0, cards.length - perView());
+    function current(){ return Math.min(maxIndex(), Math.round(track.scrollLeft / step())); }
+    function goTo(i){ track.scrollTo({left: Math.max(0, Math.min(maxIndex(), i)) * step(), behavior:'smooth'}); }
+    function update(){
+      const i = current();
+      const atEnd = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
+      const idx = atEnd ? maxIndex() : i;
+      dots.forEach((d, k)=> d.classList.toggle('active', k === idx));
+      const last = Math.min(cards.length, idx + perView());
+      count.textContent = perView() > 1 ? (idx + 1) + '–' + last + ' / ' + cards.length : (idx + 1) + ' / ' + cards.length;
+      prev.disabled = track.scrollLeft <= 4;
+      next.disabled = atEnd;
+    }
+    prev.addEventListener('click', ()=> goTo(current() - 1));
+    next.addEventListener('click', ()=> goTo(current() + 1));
+    track.addEventListener('scroll', ()=> requestAnimationFrame(update), {passive:true});
+    track.addEventListener('keydown', e=>{
+      if(e.key === 'ArrowRight'){ e.preventDefault(); goTo(current() + 1); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); goTo(current() - 1); }
+    });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // Detalhes das experiências (conteúdo do LinkedIn)
+  const EXPERIENCES = [
+ {
+  "period": "mai. 2026 – atual",
+  "role": "Analista de Dados",
+  "org": "IDEIA · Brasil",
+  "desc": [
+   "Atuo no desenvolvimento de análises quantitativas e qualitativas voltadas ao monitoramento digital, opinião pública e inteligência estratégica. Realizo coleta, tratamento e visualização de dados, elaboração de relatórios analíticos, acompanhamento de tendências e narrativas em diferentes plataformas, além de apoiar a construção de pesquisas e diagnósticos para organizações públicas e privadas."
+  ],
+  "items": [
+   "Elaboração de relatórios e análises quantitativas (pesquisa CATI e telefônica) e qualitativas (grupos focais) a partir de dados de monitoramento digital e pesquisas de opinião;",
+   "Coleta, tratamento e visualização de dados para apoio à tomada de decisão;",
+   "Monitoramento de tendências, narrativas e indicadores em diferentes plataformas, contribuindo para estudos de inteligência, comunicação e estratégia."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "jan. 2026 – abr. 2026",
+  "role": "Assistente de Pesquisa",
+  "org": "IDEIA · Brasil",
+  "desc": [
+   "O IDEIA é um instituto de pesquisa especializado em opinião pública e estratégia. Para a realização das análises, utiliza inteligência de dados na fase de pré-pesquisa, técnicas tradicionais e modernas de pesquisa e diversas fontes de informação durante todo o processo. É parceiro estratégico de diversas organizações, dentre as quais se destacam Canal Meio e v-tracker."
+  ],
+  "items": [
+   "Elaboração e revisão de relatórios qualitativos e quantitativos;",
+   "Desenvolvimento de projetos voltados ao monitoramento digital;",
+   "Auxílio na construção de questionários."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "ago. 2024 – jan. 2026",
+  "role": "Assistente de Customer Success",
+  "org": "v-tracker · São Paulo",
+  "desc": [
+   "O v-tracker é uma plataforma avançada que integra o monitoramento de redes sociais e o SAC 2.0 em uma única ferramenta, combinando análises de conversas online com a gestão eficiente do atendimento ao cliente. É parceiro do IBPAD, centro de pesquisa e formação de analistas em Pesquisa e Opinião Pública, Política e Relações Governamentais e Comunicação Digital, e também do IDEIA."
+  ],
+  "items": [
+   "Configuração e análise de projetos de monitoramento para captar e interpretar conversas e tendências nas redes sociais;",
+   "Apoio aos clientes na criação de relatórios e dashboards para facilitar a compreensão dos dados;",
+   "Otimização do SAC 2.0 para aprimorar a interação com os clientes e refinar o social listening da empresa ou organização parceira."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "fev. 2024 – ago. 2024",
+  "role": "Assistente de Customer Success",
+  "org": "Buzzmonitor · São Paulo",
+  "desc": [
+   "O Buzzmonitor é uma ferramenta que permite agendar publicações, realizar análise de conteúdo quantitativa e qualitativa das menções em redes sociais, promover interações entre a marca e os consumidores e elaborar dashboards de maneira automatizada. Como analista de Customer Success, auxiliei os parceiros a otimizarem seus negócios com insights baseados em dados."
+  ],
+  "items": [
+   "Treinamento da plataforma Buzzmonitor para novos funcionários;",
+   "Suporte aos clientes por e-mail, chat e telefone;",
+   "Criação de novas contas de clientes;",
+   "Atualização de planilhas e mailings internos."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "mar. 2023 – fev. 2024",
+  "role": "Analista de Social CRM",
+  "org": "Elife · São Paulo (Renault Brasil)",
+  "desc": [
+   "Por meio da plataforma Buzzmonitor, realizei a gestão completa de monitoramento e atendimento da marca Renault Brasil no Instagram, Twitter, YouTube e Facebook. O trabalho abrangia três escopos fundamentais (SAC, marketing e pós-venda) para garantir a melhor experiência aos consumidores. Também utilizei o Salesforce para o acompanhamento das tratativas."
+  ],
+  "items": [
+   "Atendimento aos consumidores da Renault dentro das redes sociais;",
+   "Auxílio a clientes em dúvidas sobre compra e financiamento;",
+   "Gerenciamento de situações de crise;",
+   "Elaboração de relatórios estratégicos com insights para a marca."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "jun. 2022 – dez. 2022",
+  "role": "Analista de Social Listening",
+  "org": "Quid · São Paulo",
+  "desc": [
+   "Monitorei a distribuição e a recepção dos conteúdos produzidos pela Quid em múltiplos meios e canais, com o objetivo de refinar as tomadas de decisão da empresa e ampliar a compreensão de oportunidades e insights.",
+   "Atuei também na elaboração de relatórios para os projetos “Olha o Barulhinho” e “Elas que Decidem”, premiados pelo The Shorty Awards em 2023 devido ao impacto social que tiveram."
+  ],
+  "items": [
+   "Tagueamento na ferramenta de monitoramento Buzzmonitor para gerar dashboards;",
+   "Percepções qualitativas e quantitativas dos conteúdos;",
+   "Monitoramento de performance, análise de audiência e engajamento dos canais administrados pela Quid, acompanhando a evolução de acordo com os objetivos de cada projeto;",
+   "Produção e apresentação de relatórios semanais e de campanhas para as outras áreas da Quid;",
+   "Alimentação de dados de performance, por meio do monitoramento de plataformas e de forma manual (Google Sheets);",
+   "Reuniões de pauta com o time de Conteúdo e Mobilização, sugerindo temáticas e abordagens de acordo com os interesses de cada público, considerando notícias, trending topics, movimentação de influenciadores e porta-vozes."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "fev. 2022 – jun. 2022",
+  "role": "Analista de Chatbot",
+  "org": "Elife · São Paulo",
+  "desc": [
+   "Responsável pela curadoria de conteúdo dos chatbots do time da Elife Brasil. Entre os clientes estavam a Volkswagen Caminhões e a Oi. A experiência me deu a possibilidade de trabalhar para marcas grandes, sendo o projeto da Volkswagen traduzido para o site da empresa no Chile."
+  ],
+  "items": [
+   "Avaliação do conteúdo do bot;",
+   "Criação de fluxogramas;",
+   "Correções ortográficas;",
+   "Adaptação de conteúdos para a linguagem do cliente."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "ago. 2021 – fev. 2022",
+  "role": "Analista de Social CRM",
+  "org": "Elife · São Paulo (Cyrela, Vivaz e Living)",
+  "desc": [
+   "Gestão de monitoramento e atendimento para as construtoras Cyrela, Vivaz Residencial e Living, bem como a captação de possíveis leads. O trabalho consistiu em adaptar a linguagem da marca ao tom de voz adequado para o público-alvo de cada uma, resultando em uma premiação de case mais criativo em setembro de 2021."
+  ],
+  "items": [
+   "Rotina de uma agência de inteligência e situações de crise;",
+   "Elaboração de relatórios estratégicos;",
+   "Cadastro de leads."
+  ],
+  "attachments": []
+ },
+ {
+  "period": "mai. 2021 – mar. 2022",
+  "role": "Designer Gráfico",
+  "org": "Agência Prana Digital · Rio de Janeiro",
+  "desc": [
+   "Criação de conteúdo digital e demais fins de comunicação, com foco em mídias sociais, para os mais variados ramos: empreendedorismo, gastronomia, saúde, dentre outros."
+  ],
+  "items": [],
+  "attachments": []
+ },
+ {
+  "period": "jan. 2021 – ago. 2021",
+  "role": "Social Media Designer",
+  "org": "MC2 Performance Organizacional",
+  "desc": [
+   "Planejamento de conteúdos semanais para a MC2 Performance Organizacional e suas empresas parceiras: Vaggon Aceleradora Profissional, Postos Brasil e Atendimento Digital. Desenvolvi cards no Adobe Photoshop e Adobe Illustrator, bem como alguns vídeos no Sony Vegas. Além disso, monitorei os insights dos conteúdos e auxiliei internautas nas principais dúvidas sobre os serviços das empresas."
+  ],
+  "items": [
+   "Gestão do plano de marketing e administração das redes sociais;",
+   "Criação de projetos de comunicação visual e copywriting;",
+   "Desenvolvimento de apresentações e criação de vídeos."
+  ],
+  "attachments": []
+ }
+];
+  (function(){
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    function openExp(i){
+      const e = EXPERIENCES[i]; if(!e) return;
+      document.getElementById('expPeriod').textContent = e.period;
+      document.getElementById('expRole').textContent = e.role;
+      document.getElementById('expOrg').textContent = e.org;
+      document.getElementById('expDesc').innerHTML = e.desc.map(p => '<p>' + esc(p) + '</p>').join('');
+      document.getElementById('expItems').innerHTML = e.items.map(t => '<li>' + esc(t) + '</li>').join('');
+      document.getElementById('expItemsBlock').style.display = e.items.length ? '' : 'none';
+      document.getElementById('expAtt').innerHTML = e.attachments.map(a => '<li><a href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">' + esc(a.label) + '</a></li>').join('');
+      document.getElementById('expAttBlock').style.display = e.attachments.length ? '' : 'none';
+      document.querySelector('#modal-exp .modal-inner').scrollTop = 0;
+      document.getElementById('modal-exp').scrollTop = 0;
+      openModal('modal-exp');
+    }
+    document.querySelectorAll('.traj-card[data-exp]').forEach(card=>{
+      const open = ()=> openExp(parseInt(card.dataset.exp, 10));
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', ev=>{ if(ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); open(); } });
+    });
+    document.addEventListener('keydown', ev=>{
+      if(ev.key === 'Escape'){
+        document.querySelectorAll('.project-modal.open').forEach(m => closeModal(m.id));
+      }
+    });
+  })();
 </script>
 
 </body>
