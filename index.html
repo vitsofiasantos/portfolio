@@ -499,25 +499,25 @@
     width:9px; height:9px;
     border-radius:50%;
     border:0; padding:0;
-    background:rgba(36,26,18,.28);
+    background:rgba(60,40,15,.22);
     cursor:pointer;
     transition:background .3s ease, transform .3s ease, width .3s ease;
   }
-  .traj-dot.active{background:var(--ink); width:26px; border-radius:6px;}
+  .traj-dot.active{background:rgba(60,40,15,.6); width:26px; border-radius:6px;}
   .traj-nav{display:flex; align-items:center; gap:12px;}
-  .traj-count{font-weight:700; font-size:14px; color:#3a2c18; min-width:52px; text-align:right;}
+  .traj-count{font-weight:700; font-size:14px; color:rgba(60,40,15,.65); min-width:52px; text-align:right;}
   .traj-btn{
     width:48px; height:48px;
     border-radius:50%;
-    border:2px solid var(--ink);
+    border:2px solid rgba(60,40,15,.4);
     background:transparent;
-    color:var(--ink);
+    color:rgba(60,40,15,.65);
     font-size:20px;
     line-height:1;
     cursor:pointer;
     transition:background .25s ease, color .25s ease, opacity .25s ease, transform .25s ease;
   }
-  .traj-btn:hover:not(:disabled){background:var(--ink); color:var(--gold); transform:scale(1.06);}
+  .traj-btn:hover:not(:disabled){background:rgba(60,40,15,.65); color:var(--cream); border-color:transparent; transform:scale(1.06);}
   .traj-btn:disabled{opacity:.3; cursor:default;}
   .traj-card{
     background:#fff;
@@ -567,8 +567,6 @@
   /* Cards clicáveis + detalhes */
   .traj-grid > .traj-card{cursor:pointer;}
   .traj-grid > .traj-card:focus-visible{outline:3px solid var(--ink); outline-offset:3px;}
-  .traj-link{position:relative; z-index:1; margin-top:22px;}
-  .traj-card:hover .proj-plus{transform:rotate(90deg); background:var(--ink);}
   .exp-org{font-size:17px; font-weight:700; color:var(--gold); margin:-8px 0 24px;}
   .exp-block{margin-top:32px; padding-top:24px; border-top:1px solid #e7dcc9;}
   .exp-block h4{font-size:20px; color:var(--ink); margin-bottom:16px;}
@@ -1111,7 +1109,7 @@
      CURSOR PERSONALIZADO (A MIRA / LENTE DE DADOS)
      ============================================== */
   @media (pointer: fine) {
-    body, a, button, .proj-link, .nav-toggle, .primary-btn, .close-btn {
+    body, a, button, .proj-link, .nav-toggle, .primary-btn, .close-btn, .traj-card[data-exp] {
       cursor: none !important;
     }
 
@@ -1150,6 +1148,14 @@
     }
   }
   
+  @media (pointer: fine) {
+    body.cursor-target .cursor-ring {
+      width: 68px; height: 68px;
+      background-color: rgba(189, 138, 63, 0.12);
+      border-color: var(--gold);
+    }
+  }
+
   @media (pointer: coarse) {
     /* No mobile, o cursor personalizado é oculto e restaura o comportamento padrão */
     .cursor-dot, .cursor-ring { display: none !important; }
@@ -1239,70 +1245,60 @@
         <div class="traj-period">mai. 2026 – atual</div>
         <div class="traj-role">Analista de Dados</div>
         <div class="traj-org">IDEIA · Brasil</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="1" aria-label="Ver detalhes: Assistente de Pesquisa, IDEIA · Brasil" class="traj-card reveal reveal-delay-1">
         <div class="traj-year" data-year="2026">2026</div>
         <div class="traj-period">jan. 2026 – abr. 2026</div>
         <div class="traj-role">Assistente de Pesquisa</div>
         <div class="traj-org">IDEIA · Brasil</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="2" aria-label="Ver detalhes: Assistente de Customer Success, v-tracker · São Paulo" class="traj-card reveal reveal-delay-2">
         <div class="traj-year" data-year="2024">2024</div>
         <div class="traj-period">ago. 2024 – jan. 2026</div>
         <div class="traj-role">Assistente de Customer Success</div>
         <div class="traj-org">v-tracker · São Paulo</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="3" aria-label="Ver detalhes: Assistente de Customer Success, Buzzmonitor · São Paulo" class="traj-card reveal reveal-delay-3">
         <div class="traj-year" data-year="2024">2024</div>
         <div class="traj-period">fev. 2024 – ago. 2024</div>
         <div class="traj-role">Assistente de Customer Success</div>
         <div class="traj-org">Buzzmonitor · São Paulo</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="4" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Renault Brasil)" class="traj-card reveal">
         <div class="traj-year" data-year="2023">2023</div>
         <div class="traj-period">mar. 2023 – fev. 2024</div>
         <div class="traj-role">Analista de Social CRM</div>
         <div class="traj-org">Elife · São Paulo (Renault Brasil)</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="5" aria-label="Ver detalhes: Analista de Social Listening, Quid · São Paulo" class="traj-card reveal reveal-delay-1">
         <div class="traj-year" data-year="2022">2022</div>
         <div class="traj-period">jun. 2022 – dez. 2022</div>
         <div class="traj-role">Analista de Social Listening</div>
         <div class="traj-org">Quid · São Paulo</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="6" aria-label="Ver detalhes: Analista de Chatbot, Elife · São Paulo" class="traj-card reveal reveal-delay-2">
         <div class="traj-year" data-year="2022">2022</div>
         <div class="traj-period">fev. 2022 – jun. 2022</div>
         <div class="traj-role">Analista de Chatbot</div>
         <div class="traj-org">Elife · São Paulo</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="7" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Cyrela, Vivaz e Living)" class="traj-card reveal reveal-delay-3">
         <div class="traj-year" data-year="2021">2021</div>
         <div class="traj-period">ago. 2021 – fev. 2022</div>
         <div class="traj-role">Analista de Social CRM</div>
         <div class="traj-org">Elife · São Paulo (Cyrela, Vivaz e Living)</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="8" aria-label="Ver detalhes: Designer Gráfico, Agência Prana Digital · Rio de Janeiro" class="traj-card reveal">
         <div class="traj-year" data-year="2021">2021</div>
         <div class="traj-period">mai. 2021 – mar. 2022</div>
         <div class="traj-role">Designer Gráfico</div>
         <div class="traj-org">Agência Prana Digital · Rio de Janeiro</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
       <div role="button" tabindex="0" data-exp="9" aria-label="Ver detalhes: Social Media Designer, MC2 Performance Organizacional" class="traj-card reveal reveal-delay-1">
         <div class="traj-year" data-year="2021">2021</div>
         <div class="traj-period">jan. 2021 – ago. 2021</div>
         <div class="traj-role">Social Media Designer</div>
         <div class="traj-org">MC2 Performance Organizacional</div>
-        <div class="proj-link traj-link">LEIA MAIS <span class="proj-plus">+</span></div>
       </div>
     </div>
     <div class="traj-controls">
@@ -1591,6 +1587,15 @@
       });
       el.addEventListener('mouseleave', () => {
         document.body.classList.remove('cursor-hover');
+      });
+    });
+    // Cards clicáveis da trajetória: mira maior
+    document.querySelectorAll('.traj-card[data-exp]').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        document.body.classList.add('cursor-hover', 'cursor-target');
+      });
+      el.addEventListener('mouseleave', () => {
+        document.body.classList.remove('cursor-hover', 'cursor-target');
       });
     });
   }
