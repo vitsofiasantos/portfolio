@@ -475,10 +475,13 @@
     gap:var(--gap);
   }
   .traj-grid > .traj-card{
-    transition:opacity .35s ease, transform .5s cubic-bezier(.22,1.4,.44,1), box-shadow .4s ease;
+    transition:transform .5s cubic-bezier(.22,1.4,.44,1), box-shadow .4s ease;
+    will-change:transform, opacity;
   }
+  .traj-grid{touch-action:pan-y;}
+  .traj-dot{position:relative;}
+  .traj-dot::after{content:"";position:absolute;inset:-10px -4px;}
   .traj-grid > .traj-card.is-off{display:none;}
-  .traj-grid > .traj-card.leaving{opacity:0; transform:translateX(-14px) scale(.98); pointer-events:none;}
   .traj-controls{
     display:flex;
     align-items:center;
@@ -719,12 +722,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s, transform 0.3s;
+    transition: transform .45s cubic-bezier(.22,1.4,.44,1), background .3s ease;
     line-height: 0;
   }
   .close-btn:hover { 
     background: var(--ink); 
-    transform: scale(1.05);
+    transform: rotate(90deg);
   }
   .modal-inner h2 {
     font-size: clamp(32px, 4vw, 48px);
@@ -1233,61 +1236,61 @@
     </div>
     <div class="traj-carousel">
     <div class="traj-grid" id="trajTrack" tabindex="0" aria-label="Experiências profissionais">
-      <div role="button" tabindex="0" data-exp="0" aria-label="Ver detalhes: Analista de Dados, IDEIA · Brasil" class="traj-card reveal">
+      <div role="button" tabindex="0" data-exp="0" aria-label="Ver detalhes: Analista de Dados, IDEIA · Brasil" class="traj-card">
         <div class="traj-year" data-year="2026">2026</div>
         <div class="traj-period">mai. 2026 – atual</div>
         <div class="traj-role">Analista de Dados</div>
         <div class="traj-org">IDEIA · Brasil</div>
       </div>
-      <div role="button" tabindex="0" data-exp="1" aria-label="Ver detalhes: Assistente de Pesquisa, IDEIA · Brasil" class="traj-card reveal reveal-delay-1">
+      <div role="button" tabindex="0" data-exp="1" aria-label="Ver detalhes: Assistente de Pesquisa, IDEIA · Brasil" class="traj-card">
         <div class="traj-year" data-year="2026">2026</div>
         <div class="traj-period">jan. 2026 – abr. 2026</div>
         <div class="traj-role">Assistente de Pesquisa</div>
         <div class="traj-org">IDEIA · Brasil</div>
       </div>
-      <div role="button" tabindex="0" data-exp="2" aria-label="Ver detalhes: Assistente de Customer Success, v-tracker · São Paulo" class="traj-card reveal reveal-delay-2">
+      <div role="button" tabindex="0" data-exp="2" aria-label="Ver detalhes: Assistente de Customer Success, v-tracker · São Paulo" class="traj-card">
         <div class="traj-year" data-year="2024">2024</div>
         <div class="traj-period">ago. 2024 – jan. 2026</div>
         <div class="traj-role">Assistente de Customer Success</div>
         <div class="traj-org">v-tracker · São Paulo</div>
       </div>
-      <div role="button" tabindex="0" data-exp="3" aria-label="Ver detalhes: Assistente de Customer Success, Buzzmonitor · São Paulo" class="traj-card reveal reveal-delay-3">
+      <div role="button" tabindex="0" data-exp="3" aria-label="Ver detalhes: Assistente de Customer Success, Buzzmonitor · São Paulo" class="traj-card">
         <div class="traj-year" data-year="2024">2024</div>
         <div class="traj-period">fev. 2024 – ago. 2024</div>
         <div class="traj-role">Assistente de Customer Success</div>
         <div class="traj-org">Buzzmonitor · São Paulo</div>
       </div>
-      <div role="button" tabindex="0" data-exp="4" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Renault Brasil)" class="traj-card reveal">
+      <div role="button" tabindex="0" data-exp="4" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Renault Brasil)" class="traj-card">
         <div class="traj-year" data-year="2023">2023</div>
         <div class="traj-period">mar. 2023 – fev. 2024</div>
         <div class="traj-role">Analista de Social CRM</div>
         <div class="traj-org">Elife · São Paulo (Renault Brasil)</div>
       </div>
-      <div role="button" tabindex="0" data-exp="5" aria-label="Ver detalhes: Analista de Social Listening, Quid · São Paulo" class="traj-card reveal reveal-delay-1">
+      <div role="button" tabindex="0" data-exp="5" aria-label="Ver detalhes: Analista de Social Listening, Quid · São Paulo" class="traj-card">
         <div class="traj-year" data-year="2022">2022</div>
         <div class="traj-period">jun. 2022 – dez. 2022</div>
         <div class="traj-role">Analista de Social Listening</div>
         <div class="traj-org">Quid · São Paulo</div>
       </div>
-      <div role="button" tabindex="0" data-exp="6" aria-label="Ver detalhes: Analista de Chatbot, Elife · São Paulo" class="traj-card reveal reveal-delay-2">
+      <div role="button" tabindex="0" data-exp="6" aria-label="Ver detalhes: Analista de Chatbot, Elife · São Paulo" class="traj-card">
         <div class="traj-year" data-year="2022">2022</div>
         <div class="traj-period">fev. 2022 – jun. 2022</div>
         <div class="traj-role">Analista de Chatbot</div>
         <div class="traj-org">Elife · São Paulo</div>
       </div>
-      <div role="button" tabindex="0" data-exp="7" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Cyrela, Vivaz e Living)" class="traj-card reveal reveal-delay-3">
+      <div role="button" tabindex="0" data-exp="7" aria-label="Ver detalhes: Analista de Social CRM, Elife · São Paulo (Cyrela, Vivaz e Living)" class="traj-card">
         <div class="traj-year" data-year="2021">2021</div>
         <div class="traj-period">ago. 2021 – fev. 2022</div>
         <div class="traj-role">Analista de Social CRM</div>
         <div class="traj-org">Elife · São Paulo (Cyrela, Vivaz e Living)</div>
       </div>
-      <div role="button" tabindex="0" data-exp="8" aria-label="Ver detalhes: Designer Gráfico, Agência Prana Digital · Rio de Janeiro" class="traj-card reveal">
+      <div role="button" tabindex="0" data-exp="8" aria-label="Ver detalhes: Designer Gráfico, Agência Prana Digital · Rio de Janeiro" class="traj-card">
         <div class="traj-year" data-year="2021">2021</div>
         <div class="traj-period">mai. 2021 – mar. 2022</div>
         <div class="traj-role">Designer Gráfico</div>
         <div class="traj-org">Agência Prana Digital · Rio de Janeiro</div>
       </div>
-      <div role="button" tabindex="0" data-exp="9" aria-label="Ver detalhes: Social Media Designer, MC2 Performance Organizacional" class="traj-card reveal reveal-delay-1">
+      <div role="button" tabindex="0" data-exp="9" aria-label="Ver detalhes: Social Media Designer, MC2 Performance Organizacional" class="traj-card">
         <div class="traj-year" data-year="2021">2021</div>
         <div class="traj-period">jan. 2021 – ago. 2021</div>
         <div class="traj-role">Social Media Designer</div>
@@ -1597,8 +1600,8 @@
   function countUp(el){
     const target = parseInt(el.dataset.year, 10);
     if(reduceMotion || !target){ return; }
-    const start = target - 14;
-    const duration = 900;
+    const start = target - 3;
+    const duration = 700;
     const t0 = performance.now();
     el._countId = t0; // evita duas contagens simultâneas no mesmo card
     function tick(now){
@@ -1691,23 +1694,22 @@
     }
   }
 
-  // Carrossel da trajetória (troca de página com fade, sem rolagem nem cortes)
+  // Carrossel da trajetória: páginas fixas (sem sobreposição), ordem sempre do mais recente ao mais antigo
   (function(){
     const track = document.getElementById('trajTrack');
     if(!track) return;
-    const cards = Array.from(track.querySelectorAll('.traj-card'));
+    const cards = Array.from(track.querySelectorAll('.traj-card')); // já na ordem cronológica inversa
     const prev = document.getElementById('trajPrev');
     const next = document.getElementById('trajNext');
     const dotsWrap = document.getElementById('trajDots');
     const count = document.getElementById('trajCount');
+    const EASE_IN = 'cubic-bezier(.22,1,.36,1)';
     const perView = ()=> parseInt(getComputedStyle(track).getPropertyValue('--per-view'), 10) || 1;
-    const maxStart = ()=> Math.max(0, cards.length - perView());
-    let start = 0;
+    const pages = ()=> Math.ceil(cards.length / perView());
+    const page = ()=> Math.floor(start / perView());
+    let start = 0;          // sempre múltiplo de perView → a última página é parcial, nunca repete cards
     let busy = false;
     let dots = [];
-
-    const pages = ()=> Math.ceil(cards.length / perView());
-    const activePage = ()=> start >= maxStart() ? pages() - 1 : Math.floor(start / perView());
 
     function buildDots(){
       const total = pages();
@@ -1718,7 +1720,7 @@
         d.className = 'traj-dot';
         d.type = 'button';
         d.tabIndex = -1;
-        d.addEventListener('click', ()=> goTo(Math.min(i * perView(), maxStart())));
+        d.addEventListener('click', ()=> goToPage(i));
         dotsWrap.appendChild(d);
         return d;
       });
@@ -1728,60 +1730,104 @@
       buildDots();
       const per = perView();
       const last = Math.min(cards.length, start + per);
-      count.textContent = per > 1 ? (start + 1) + '–' + last + ' / ' + cards.length : (start + 1) + ' / ' + cards.length;
-      dots.forEach((d, k)=> d.classList.toggle('active', k === activePage()));
+      count.textContent = per > 1 && last - start > 1
+        ? (start + 1) + '–' + last + ' / ' + cards.length
+        : (start + 1) + ' / ' + cards.length;
+      dots.forEach((d, k)=> d.classList.toggle('active', k === page()));
       prev.disabled = start <= 0;
-      next.disabled = start >= maxStart();
+      next.disabled = page() >= pages() - 1;
     }
 
-    function showWindow(animate){
+    const visible = ()=> cards.filter(c=> !c.classList.contains('is-off'));
+
+    function setWindow(){
       const per = perView();
-      cards.forEach((c, i)=>{
-        const on = i >= start && i < start + per;
-        c.classList.remove('leaving');
-        c.classList.toggle('is-off', !on);
-        if(!on) return;
-        const y = c.querySelector('.traj-year[data-year]');
-        if(!animate){ c.classList.add('in-view'); return; }
-        // entrada escalonada + contagem do ano
-        const order = i - start;
-        c.classList.remove('in-view');
-        c.style.transitionDelay = (order * 70) + 'ms';
-        if(y && !reduceMotion){ y.textContent = parseInt(y.dataset.year, 10) - 14; y._countId = null; }
-        void c.offsetWidth;
-        c.classList.add('in-view');
-        setTimeout(()=>{ if(y){ countUp(y); } c.style.transitionDelay = ''; }, order * 70 + 120);
-      });
-      updateUI();
+      cards.forEach((c, i)=> c.classList.toggle('is-off', !(i >= start && i < start + per)));
     }
 
-    function goTo(newStart){
-      newStart = Math.max(0, Math.min(maxStart(), newStart));
+    // Entrada: cards deslizam da direção do movimento, em cascata, de cima p/ baixo na ordem cronológica
+    function animateIn(dir){
+      visible().forEach((c, order)=>{
+        const y = c.querySelector('.traj-year[data-year]');
+        c.style.opacity = '';
+        if(reduceMotion) return;
+        const from = dir === 0
+          ? 'translateY(34px) scale(.97)'
+          : 'translateX(' + (dir * 56) + 'px) scale(.96)';
+        c.animate(
+          [{opacity:0, transform:from}, {opacity:1, transform:'none'}],
+          {duration:640, delay:order * 90, easing:EASE_IN, fill:'backwards'}
+        );
+        if(y){ y._countId = null; setTimeout(()=> countUp(y), order * 90 + 120); }
+      });
+    }
+
+    // Saída: cards saem para o lado oposto, rápido
+    function animateOut(dir){
+      if(reduceMotion) return Promise.resolve();
+      const outs = visible().map((c, order)=> c.animate(
+        [{opacity:1, transform:'none'}, {opacity:0, transform:'translateX(' + (-dir * 44) + 'px) scale(.96)'}],
+        {duration:240, delay:order * 40, easing:'cubic-bezier(.4,0,1,1)', fill:'forwards'}
+      ));
+      return Promise.all(outs.map(a=> a.finished.catch(()=>{}))).then(()=> outs.forEach(a=> a.cancel()));
+    }
+
+    function goToPage(p){
+      p = Math.max(0, Math.min(pages() - 1, p));
+      const newStart = p * perView();
       if(busy || newStart === start) return;
       busy = true;
-      const per = perView();
-      cards.forEach((c, i)=>{ if(i >= start && i < start + per) c.classList.add('leaving'); });
-      setTimeout(()=>{
+      const dir = newStart > start ? 1 : -1;
+      const h = track.offsetHeight;
+      track.style.minHeight = h + 'px'; // evita "pulo" de altura durante a troca
+      animateOut(dir).then(()=>{
         start = newStart;
-        showWindow(true);
-        setTimeout(()=>{ busy = false; }, 350);
-      }, 260);
+        setWindow();
+        updateUI();
+        // cards recém-exibidos nascem invisíveis até a animação de entrada começar
+        visible().forEach(c=> c.style.opacity = 0);
+        animateIn(dir);
+        setTimeout(()=>{ track.style.minHeight = ''; busy = false; }, 640 + perView() * 90);
+      });
     }
 
-    prev.addEventListener('click', ()=> goTo(start - perView()));
-    next.addEventListener('click', ()=> goTo(start + perView()));
+    prev.addEventListener('click', ()=> goToPage(page() - 1));
+    next.addEventListener('click', ()=> goToPage(page() + 1));
     track.addEventListener('keydown', e=>{
-      if(e.key === 'ArrowRight'){ e.preventDefault(); goTo(start + perView()); }
-      if(e.key === 'ArrowLeft'){ e.preventDefault(); goTo(start - perView()); }
-    });
-    window.addEventListener('resize', ()=>{
-      start = Math.min(start, maxStart());
-      showWindow(false);
+      if(e.key === 'ArrowRight'){ e.preventDefault(); goToPage(page() + 1); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); goToPage(page() - 1); }
     });
 
-    // Estado inicial: só a primeira página visível; a entrada animada vem do reveal original
-    cards.forEach((c, i)=>{ if(i >= perView()) c.classList.add('is-off'); });
+    // Swipe no celular
+    let sx = null, sy = null;
+    track.addEventListener('touchstart', e=>{ sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive:true});
+    track.addEventListener('touchend', e=>{
+      if(sx === null) return;
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      sx = sy = null;
+      if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5){ goToPage(page() + (dx < 0 ? 1 : -1)); }
+    }, {passive:true});
+
+    // Resize: mantém o card inicial da página e realinha à nova grade
+    window.addEventListener('resize', ()=>{
+      const per = perView();
+      start = Math.floor(start / per) * per;
+      setWindow();
+      updateUI();
+    });
+
+    // Estado inicial: só a 1ª página; entra animada quando a seção aparece na tela
+    setWindow();
     updateUI();
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      animateIn(0);
+    } else {
+      visible().forEach(c=> c.style.opacity = 0);
+      const seen = new IntersectionObserver((entries)=>{
+        if(entries.some(e=> e.isIntersecting)){ seen.disconnect(); animateIn(0); }
+      }, {threshold:0.2});
+      seen.observe(track);
+    }
   })();
 
   // Detalhes das experiências (conteúdo do LinkedIn)
